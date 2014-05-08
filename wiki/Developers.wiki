@@ -9,7 +9,7 @@ List of team members
 
 
 
- * *Josef Hornych* - developer, quality check
- * *Dobroslav Bernath* - developer, java developer
- * *Ivo Hradek* - developer, network expert
- * *Adam Brenkus* - developer, junior java developer
+ * *Josef Hornych* - state editing, svg port
+ * *Dobroslav Bernath* - project management, java web application, documentation
+ * *Ivo Hradek* - java web application, documentation, svg style
+ * *Adam Brenkus* - scxml parsing
