@@ -1,11 +1,6 @@
 #summary Team members
 
-= Introduction =
-
-List of team members
-
-
-= Details =
+= Team Members =
 
 
 
