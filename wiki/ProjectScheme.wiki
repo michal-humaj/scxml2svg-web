@@ -12,5 +12,4 @@
 
 User interface and svg output will be implemented in web application.
 
-
-https://code.google.com/p/scxml2svg-web/source/browse/wiki/class%20diagram.jpg
+https://scxml2svg-web.googlecode.com/svn/class%20diagram.jpg
