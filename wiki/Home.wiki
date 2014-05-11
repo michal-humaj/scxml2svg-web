@@ -1,4 +1,4 @@
-#SCXML2SVG-Web
+#summary SCXML2SVG-Web
 
 = Introduction =
 
