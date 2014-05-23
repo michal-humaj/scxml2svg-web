@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+h1 {
+    font-style: oblique;
+    font-weight: normal;
+    text-align: left;
+    display: inline;
+    color: #333333;
+}
+
+div.container {            
+    border: 1px solid black;
+    text-align: center;
+}
+
+div.containerUpload {
+    border: 1px solid black;
+}
+
+div.containerSvg {
+    border: 1px solid black;
+}
