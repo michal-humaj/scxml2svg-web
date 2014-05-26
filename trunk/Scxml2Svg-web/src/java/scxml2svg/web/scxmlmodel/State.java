@@ -6,8 +6,10 @@
 
 package scxml2svg.web.scxmlmodel;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,13 +18,34 @@ import java.util.NoSuchElementException;
 public class State {
     public State(String id)
     {
+        this(id, null);
+    }
+	
+    public State(String id, State parent)
+    {
         this.id = id;
+		this.parent = parent;
+		children = new ArrayList<>();
     }
     
     public String getId() 
     { 
         return id; 
     }
+	
+    public State getParent() 
+    { 
+        return parent; 
+    }
+	
+    public List<State> getChildren() 
+    { 
+        return Collections.unmodifiableList(children);
+    }
+	
+	public State addChild(State state){
+		return children.add(state) == true ? state : null;
+	}
     
     /**
      * *Internal* Adds a transition to the list of transitions. 
@@ -58,7 +81,8 @@ public class State {
         transitions.add(transition);
     }    
     
-    private String id;
-    
-    private List<Transition> transitions;
+    protected String id;
+    protected State parent;
+	protected List<State> children;
+    protected List<Transition> transitions;
 }

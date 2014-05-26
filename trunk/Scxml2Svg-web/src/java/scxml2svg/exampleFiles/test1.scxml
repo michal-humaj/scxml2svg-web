@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scxml xmlns="http://www.w3.org/2005/07/scxml"
+       version="1.0"
+       initial="Main">
+
+  <state id="Main">
+
+    <initial>
+      <transition target="Test1"/>
+    </initial>
+
+    <state id="Test1">
+      <initial>
+        <transition target="Test1Sub1"/>
+      </initial>
+
+
+      <state id="Test1Sub1">
+
+        <transition event="Event1" target="Test1Sub2"/>
+      </state>
+
+
+  </state>
+  </state>
+
+      
+  <final id="final"/>
+</scxml>
