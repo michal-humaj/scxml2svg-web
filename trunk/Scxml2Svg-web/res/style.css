@@ -9,6 +9,26 @@ svg {
     fill: white;
 }
 
+.final-rect {
+	stroke: black;
+    stroke-width: 0.75;
+    fill: transparent;
+}
+
+.parallel-rect {
+	stroke: black;
+	stroke-width: 1;
+	stroke-dasharray: 2,2;
+	fill: transparent;
+}
+
+.history-rect {
+	stroke: black;
+	stroke-width: 3;
+	stroke-dasharray: 12,2;
+	fill: transparent;
+}
+
 .id-caption {
 	font-weight: bold;
 }
