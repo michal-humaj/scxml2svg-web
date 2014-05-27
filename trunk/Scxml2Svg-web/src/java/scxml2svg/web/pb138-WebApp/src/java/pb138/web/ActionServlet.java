@@ -1,34 +1,31 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package pb138.web;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.URISyntaxException;
+import java.io.FileInputStream;
 import java.util.logging.Level;
+import java.io.FileOutputStream;
 import java.util.logging.Logger;
+import java.io.OutputStreamWriter;
+import java.net.URISyntaxException;
+import java.io.FileNotFoundException;
+
+import javax.servlet.http.Part;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
+import javax.servlet.annotation.MultipartConfig;
+
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.xml.sax.SAXException;
+
 import scxml2svg.web.scxmlmodel.State;
 import scxml2svg.web.scxmlparser.SCXMLParser;
 import scxml2svg.web.svgcomposer.SvgComposer;
@@ -49,7 +46,8 @@ public class ActionServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     */
+     * @throws java.net.URISyntaxException
+     */    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, URISyntaxException {
         response.setContentType("text/html;charset=UTF-8");
@@ -74,6 +72,7 @@ public class ActionServlet extends HttpServlet {
     private void uploadFile(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException, URISyntaxException {
         // Uploaded file destination
+        
         String destination = System.getProperty("user.dir");
         //String destination = ActionServlet.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
         //String destination = "/WEB-INF";
@@ -88,25 +87,29 @@ public class ActionServlet extends HttpServlet {
         final PrintWriter writer = response.getWriter();
 
         try {
-            out = new FileOutputStream(new File(path + File.separator
-                    + fileName));
-            filecontent = filePart.getInputStream();
-
-            int read = 0;
+            int read;
             final byte[] bytes = new byte[1024];
-
+            out = new FileOutputStream(new File(path + File.separator + fileName));
+            filecontent = filePart.getInputStream();            
+            
             while ((read = filecontent.read(bytes)) != -1) {
                 out.write(bytes, 0, read);
             }
-            writer.println("New file " + fileName + " created at " + path);
             
-            createSvg(path,fileName);
+            // writer.println("New file " + fileName + " created at " + path);            
+            createSvg(path,fileName);                       
+            String scxmlCode = getScxmlCode(path + File.separator + fileName);
+            String svgCode = getScxmlCode(path + File.separator + "result.svg");
+            request.setAttribute("scxmlCode", scxmlCode); 
+            request.setAttribute("svgCode", svgCode); 
+            request.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(request, response);         
+            // request.setAttribute("svg", ItemEnum.values());
+            
         } catch (FileNotFoundException fne) {
-            writer.println("You either did not specify a file to upload or are "
+            writer.println("<script>alert(\"You either did not specify a file to upload or are "
                     + "trying to upload a file to a protected or nonexistent "
-                    + "location.");
-            writer.println("<br/> ERROR: " + fne.getMessage());
-
+                    + "location.\\nERROR: " + fne.getMessage() + "\")</script>");
+            // request.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(request, response);            
         } finally {
             if (out != null) {
                 out.close();
@@ -116,15 +119,12 @@ public class ActionServlet extends HttpServlet {
             }
             if (writer != null) {
                 writer.close();
-            }
-        }
-        
-        
+            }            
+        }        
     }
     
     private void downloadSVG(HttpServletRequest request, HttpServletResponse response) 
-            throws FileNotFoundException, IOException {
-        
+            throws FileNotFoundException, IOException {        
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition",
         "attachment;filename=result.svg");
@@ -140,19 +140,17 @@ public class ActionServlet extends HttpServlet {
 
         byte[] outputByte = new byte[4096];
         //copy binary contect to output stream
-        while(fileIn.read(outputByte, 0, 4096) != -1)
-        {
+        while(fileIn.read(outputByte, 0, 4096) != -1) {
                 out.write(outputByte, 0, 4096);
         }
         fileIn.close();
         out.flush();
-        out.close();
-    
-    }
-    
-     private void downloadXML(HttpServletRequest request, HttpServletResponse response) 
+        out.close();    
+    }    
+     
+    private void downloadXML(HttpServletRequest request, HttpServletResponse response) 
             throws FileNotFoundException, IOException {
-        
+    
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition",
         "attachment;filename=new.scxml");
@@ -168,16 +166,35 @@ public class ActionServlet extends HttpServlet {
 
         byte[] outputByte = new byte[4096];
         //copy binary contect to output stream
-        while(fileIn.read(outputByte, 0, 4096) != -1)
-        {
+        while(fileIn.read(outputByte, 0, 4096) != -1) {
                 out.write(outputByte, 0, 4096);
         }
         fileIn.close();
         out.flush();
-        out.close();
-    
+        out.close();   
     }
     
+    private String getScxmlCode(String path) {
+        byte[] bytes;
+        FileInputStream fs;
+        try {
+            fs = new FileInputStream(path);
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: `" + path + "`");            
+            return null;
+        }
+        
+        try {
+            bytes = new byte[fs.available()];
+            fs.read(bytes);
+            fs.close();
+        } catch (IOException e) {
+            System.out.println("IO Exception while getting contents of `"
+                    + path + "`");    
+            return null;
+        }
+        return new String(bytes);
+    }
     // tuto bude metoda na menenie css stylu
     // 
     /*
@@ -187,14 +204,9 @@ public class ActionServlet extends HttpServlet {
     green = 339933
     black = 000000
     yellow = FFCC00
+    */     
     
-    
-    
-    
-    */
-     
-    private void createSvg(String path, String fileName) {
-        
+    private void createSvg(String path, String fileName) {    
         if (path == null) {
             throw new NullPointerException("Null path");
         }
@@ -218,29 +230,21 @@ public class ActionServlet extends HttpServlet {
               OutputStreamWriter osw = new OutputStreamWriter(s);
               osw.write(string, 0, string.length());
               osw.close();
-
-        } catch (IOException ex) {
-            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
-          
-        } catch (SAXException ex) {
-            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | SAXException | ParserConfigurationException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);          
         }
-        
-       
     }
     
     private String getFileName(final Part part) {
-    final String partHeader = part.getHeader("content-disposition");
-    for (String content : part.getHeader("content-disposition").split(";")) {
-        if (content.trim().startsWith("filename")) {
-            return content.substring(
-                    content.indexOf('=') + 1).trim().replace("\"", "");
+        final String partHeader = part.getHeader("content-disposition");
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(
+                        content.indexOf('=') + 1).trim().replace("\"", "");
+            }
         }
+        return null;
     }
-    return null;
-}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -288,7 +292,4 @@ public class ActionServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-  
-
 }
