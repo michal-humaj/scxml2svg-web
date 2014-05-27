@@ -1,0 +1,23 @@
+svg {
+	font-family: Arial;
+	font-size: 14px;
+}
+
+.state-rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: white;
+}
+
+.id-caption {
+	font-weight: bold;
+}
+
+.transition line {
+	stroke: black;
+	stroke-width: 1;
+}
+
+.transition .initial circle {
+	fill: black;
+}
