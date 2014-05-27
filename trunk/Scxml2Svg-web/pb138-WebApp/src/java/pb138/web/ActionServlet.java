@@ -6,6 +6,7 @@
 
 package pb138.web;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,8 +14,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.MultipartConfig;
@@ -23,12 +26,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
+import scxml2svg.web.scxmlmodel.State;
+import scxml2svg.web.scxmlparser.SCXMLParser;
+import scxml2svg.web.svgcomposer.SvgComposer;
 
 /**
  *
  * @author Dobroslav Bernáth
  */
-@WebServlet(name = "ActionServlet", urlPatterns = {"/upload", "/downloadSVG", "/index"})
+@WebServlet(name = "ActionServlet", urlPatterns = {"/upload", "/downloadSVG", "/index", "/downloadXML"})
 @MultipartConfig
 public class ActionServlet extends HttpServlet {
 
@@ -55,6 +63,10 @@ public class ActionServlet extends HttpServlet {
          
          if (request.getServletPath().equals("/downloadSVG")) {
               downloadSVG(request, response);
+         }
+         
+         if (request.getServletPath().equals("/downloadXML")) {
+              downloadXML(request, response);
          }
     }
     
@@ -86,6 +98,7 @@ public class ActionServlet extends HttpServlet {
             }
             writer.println("New file " + fileName + " created at " + path);
             
+            createSvg(path + fileName);
         } catch (FileNotFoundException fne) {
             writer.println("You either did not specify a file to upload or are "
                     + "trying to upload a file to a protected or nonexistent "
@@ -103,6 +116,8 @@ public class ActionServlet extends HttpServlet {
                 writer.close();
             }
         }
+        
+        
     }
     
     private void downloadSVG(HttpServletRequest request, HttpServletResponse response) 
@@ -110,7 +125,35 @@ public class ActionServlet extends HttpServlet {
         
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition",
-        "attachment;filename=hovno.txt");
+        "attachment;filename=result.svg");
+        
+        // File name
+        String fileName;
+        fileName = "D:\\Test\\hovno.txt";
+        
+        // Setting Streams
+        File file = new File(fileName);
+        FileInputStream fileIn = new FileInputStream(file);
+        ServletOutputStream out = response.getOutputStream();
+
+        byte[] outputByte = new byte[4096];
+        //copy binary contect to output stream
+        while(fileIn.read(outputByte, 0, 4096) != -1)
+        {
+                out.write(outputByte, 0, 4096);
+        }
+        fileIn.close();
+        out.flush();
+        out.close();
+    
+    }
+    
+     private void downloadXML(HttpServletRequest request, HttpServletResponse response) 
+            throws FileNotFoundException, IOException {
+        
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition",
+        "attachment;filename=new.scxml");
         
         // File name
         String fileName;
@@ -147,6 +190,44 @@ public class ActionServlet extends HttpServlet {
     
     
     */
+     
+    private void createSvg(String path) {
+        
+        if (path == null) {
+            throw new NullPointerException("Null path");
+        }
+        
+        try {
+            System.out.println("hovno");
+            SCXMLParser parser = new SCXMLParser(path);
+             String string = SvgComposer.composeFromRootStates(parser.getRootStates().toArray(new State[0]), parser.getAllTransitions());
+             
+              File file = new File("\\hovno.svg");
+              if (file.createNewFile()){
+	        System.out.println("File is created!");
+                System.out.println("hovno");
+	      }else{
+	        System.out.println("File already exists.");
+	      }
+              
+              FileOutputStream s = new FileOutputStream(file);
+              OutputStreamWriter osw = new OutputStreamWriter(s);
+              System.out.println("hovno");
+              osw.write(string, 0, string.length());
+              osw.close();
+             
+             System.out.println("hovno");
+        } catch (IOException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+          
+        } catch (SAXException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(ActionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       
+    }
     
     private String getFileName(final Part part) {
     final String partHeader = part.getHeader("content-disposition");
