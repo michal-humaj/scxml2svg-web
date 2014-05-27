@@ -49,12 +49,29 @@ public class Transition {
 	 * @param condition condition
 	 * @param type type
      */
-    public Transition(State fromState, State toState, boolean initial, String event, boolean condition, String type){
+    public Transition(State fromState, State toState, String event){
+		this(fromState, toState);
+		this.initial = false;
+		this.event = event;
+		this.condition = true;
+		this.type = "";
+    }
+    /**
+     * Creates a transition between 2 states
+     * 
+     * @param fromState the state from which the transition originates
+     * @param toState the state in which the transition ends
+	 * @param initial whether this transition is initial
+	 * @param event event
+	 * @param condition condition
+	 * @param type type
+     */
+    public Transition(State fromState, State toState, String event, boolean initial){
 		this(fromState, toState);
 		this.initial = initial;
 		this.event = event;
-		this.condition = condition;
-		this.type = type;
+		this.condition = true;
+		this.type = "";
     }
     
     /**
