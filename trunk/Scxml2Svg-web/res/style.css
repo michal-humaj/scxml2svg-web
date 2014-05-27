@@ -1,6 +1,6 @@
 svg {
 	font-family: Arial;
-	font-size: 10px;
+	font-size: 14px;
 }
 
 .state-rect {
@@ -11,5 +11,13 @@ svg {
 
 .id-caption {
 	font-weight: bold;
-	fill: red;
+}
+
+.transition line {
+	stroke: black;
+	stroke-width: 1;
+}
+
+.transition .initial circle {
+	fill: black;
 }
