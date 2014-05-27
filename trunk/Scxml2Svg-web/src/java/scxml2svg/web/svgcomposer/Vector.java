@@ -24,7 +24,12 @@ public class Vector {
     
     public double getY()
     {
-        return x;
+        return y;
+    }
+    
+    public double getRads()
+    {
+        return (x!=0) ? ((Math.atan(y/x) + Math.PI) % (Math.PI * 2)) : ( (y<0) ? (Math.PI/2) : (Math.PI*3/2) );
     }
     
     private double x, y;

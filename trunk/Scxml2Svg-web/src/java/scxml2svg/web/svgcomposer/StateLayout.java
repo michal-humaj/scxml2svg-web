@@ -32,12 +32,21 @@ public abstract class StateLayout {
         for (int i = 0; i < states.length; i++)
         {
             stateContainers[i] = new StateContainer(states[i],transitions);
-            for (Transition t: transitions)
-            {
-                if (t.toState()==states[i])
-                    this.transitions.add(t);
-            }
         }
+         
+        for (Transition t: transitions)
+        {
+            boolean found = false;
+            
+            for (State s: states)
+            {
+                if (s == t.toState())
+                { found = true; break; }
+            }
+            
+            if (found) this.transitions.add(t);
+        }
+           
         
         margin = 10;
     }
@@ -53,15 +62,19 @@ public abstract class StateLayout {
             i.layout();
         }
         
-        // bruteforce the radius of a regular polygon, with one child layout
-        // as each vertex, in which none of the child layouts collide
-        
+        Bounds bounds = new Bounds();
+        bounds.update(-30, -5);
+        bounds.update(30, 5);
         double radius = 0;
-        boolean collision = true;
-        if (stateContainers.length>1)
-        for (radius=0; collision ; radius += 2.5)
+        
+        boolean failure = true;
+        if (stateContainers.length>0)
+        for (radius=0; failure ; radius += 2.5)
         {
-            collision = false;
+            // bruteforce the radius of a regular polygon, with one child layout
+            // as each vertex, in which none of the child layouts collide
+            
+            failure = false;
             for (int i = 0; i < stateContainers.length; i++)
             {
                 double rads1 = 2 * Math.PI / stateContainers.length * i;
@@ -74,96 +87,159 @@ public abstract class StateLayout {
                     double rads2 = 2 * Math.PI / stateContainers.length * j;
                     StateLayout cont2 = stateContainers[j];
                     
-                    collision |= Collide.Boxes(
-                        Math.cos( rads1 ) * radius, - Math.sin( rads1 ) * radius, cont1.getWidth(), cont1.getHeight(),
-                        Math.cos( rads2 ) * radius, - Math.sin( rads2 ) * radius, cont2.getWidth(), cont2.getHeight());
+                    failure |= Collide.Boxes(
+                        -Math.cos( rads1 ) * radius, - Math.sin( rads1 ) * radius, cont1.getOuterWidth(), cont1.getOuterHeight(),
+                        -Math.cos( rads2 ) * radius, - Math.sin( rads2 ) * radius, cont2.getOuterWidth(), cont2.getOuterHeight());
                 }
             }
-        }
-        
-        // Place the child layouts on the desired coords
-        // and compute this layout's width and height
-        double minx = -30, maxx = 30, miny = -5, maxy = 5;
-        for (int i=0; i < stateContainers.length; i++)        
-        {
-            StateLayout cont = stateContainers[i];
-            double rads = 2 * Math.PI / stateContainers.length * i;
+            if (failure) continue;
             
-            double x = Math.cos(rads) * radius;
-            double y =-Math.sin(rads) * radius;
-            
-            cont.setX(x);
-            cont.setY(y);
-            
-            double hwidth = cont.getWidth() / 2, hheight = cont.getHeight() / 2;
-            
-            minx = Math.min(minx, x-hwidth); maxx = Math.max(maxx, x+hwidth);
-            miny = Math.min(miny, y-hheight); maxy = Math.max(maxy, y+hheight);
-        }
-        
-        // Create the transition arrows
-        // Bruteforce them so that they don't collide with states
-        Vector[] possibleOrigins =new Vector[] { new Vector(0,-1), new Vector(1,0), new Vector(0,1), new Vector(-1,0) };
-        for (Transition t: transitions)
-        {
-            StateContainer end = null;
-            for (StateContainer c: stateContainers)
+            // Place the child layouts on the desired coords
+            // and compute this layout's width and height
+
+            for (int i=0; i < stateContainers.length; i++)        
             {
-                if (c.getState() == t.toState())
-                    end = c;
+                StateLayout cont = stateContainers[i];
+                double rads = 2 * Math.PI / stateContainers.length * i;
+
+                double x =-Math.cos(rads) * radius;
+                double y =-Math.sin(rads) * radius;
+
+                cont.setX(x);
+                cont.setY(y);
+
+                double hwidth = cont.getOuterWidth() / 2, hheight = cont.getOuterHeight() / 2;
+
+                bounds.update(x-hwidth, y-hheight);
+                bounds.update(x+hwidth, y+hheight);
             }
-            if (end == null) continue;
             
-            if (t.isInitial())
+            transitionArrows = new ArrayList<>();
+            
+            // Create the transition arrows
+            // Bruteforce them so that they don't collide with states
+            Vector[] possibleOrigins =new Vector[] { new Vector(0,-1), new Vector(1,0), new Vector(0,1), new Vector(-1,0) };
+            for (Transition t: transitions)
             {
-                for (Vector vec: possibleOrigins)
-                {
-                    boolean collides = false;
-                    
-                    for (StateContainer c: stateContainers)
-                    {
-                        if (c == end) continue;
-                        
-                        collides |= Collide.Boxes(
-                            end.getX()+vec.getX()*(end.getWidth()/2-margin+15),
-                            end.getY()+vec.getY()*(end.getHeight()/2-margin+15),
-                            Math.abs(vec.getX()*40 + vec.getY()*10),
-                            Math.abs(vec.getY()*40 + vec.getX()*10),
-                            c.getX(),
-                            c.getY(),
-                            c.getWidth(),
-                            c.getHeight());
-                    }
-                    
-                    if (!collides)
-                    {
-                        TransitionArrow arr = new TransitionArrow(t);
-                        arr.setStart(
-                            end.getX()+vec.getX()*40,
-                            end.getY()+vec.getY()*40
-                        );
-                        arr.setEnd(
-                            end.getX(),
-                            end.getY());
-                        
-                        transitionArrows.add(arr);
-                        break;
-                    }
-                }
-            } else { // t.isInitial()
-                StateContainer start;
-                
+                StateContainer end = null;
                 for (StateContainer c: stateContainers)
                 {
-                    if (c.getState() == t.fromState())
-                        start = c;
+                    if (c.getState() == t.toState())
+                        end = c;
                 }
-                
-            }
-        }            
+                if (end == null) continue;
+
+                if (t.isInitial())
+                {
+                    Vector vec = null;
+                    for (Vector v : possibleOrigins) {
+                        boolean collides = false;
+                        for (StateContainer c: stateContainers)
+                        {
+                            if (c == end) continue;
+
+                            collides |= Collide.Boxes(
+                                    end.getX()+v.getX()*(end.getWidth()/2+15),
+                                    end.getY()+v.getY()*(end.getHeight()/2+15),
+                                    Math.abs(v.getX()*40 + v.getY()*5),
+                                    Math.abs(v.getY()*40 + v.getX()*5),
+                                    c.getX(),
+                                    c.getY(),
+                                    c.getWidth(),
+                                    c.getHeight());
+                        }
+                        if (!collides)
+                        {
+                            vec = v;
+                            break;
+                        }
+                    }
+                    
+                    if (vec == null) 
+                    { 
+                        failure = true;
+                        break;
+                    }
+                            
+                    TransitionArrow arr = new TransitionArrow(t);
+
+                    double xcor = end.getX()+vec.getX()*(end.width/2+30);
+                    double ycor = end.getY()+vec.getY()*(end.height/2+30);
+
+                    bounds.update(xcor+5, ycor);
+
+                    arr.setStart(xcor,ycor);
+
+                    arr.setEnd(
+                        end.getX()+vec.getX()*(end.width/2),
+                        end.getY()+vec.getY()*(end.height/2));
+
+                    transitionArrows.add(arr);
+
+                } else { // t.isInitial()
+                    StateContainer start = null;
+
+                    for (StateContainer c: stateContainers)
+                    {
+                        if (c.getState() == t.fromState())
+                            start = c;
+                    }
+
+                    if (start == null) continue; // wtf?
+
+                    Vector vec1 = possibleOrigins[0];
+                    Vector vec2 = possibleOrigins[0];
+                    boolean cancel = false;
+                    for (int i = 0; i < possibleOrigins.length && !cancel; i++)
+                    {
+                        for (int j = 0; j < possibleOrigins.length && !cancel; j++)
+                        {
+                            vec1 = possibleOrigins[i];
+                            vec2 = possibleOrigins[j];
+
+                            double x1 = start.getX()+vec1.getX()*(start.width / 2 + 1);
+                            double y1 = start.getY()+vec1.getY()*(start.height / 2 + 1);
+                            double x2 = end.getX()+vec2.getX()*(end.width / 2 + 1);
+                            double y2 = end.getY()+vec2.getY()*(end.height / 2 + 1);
+
+                            boolean collides = false;
+                            for (StateContainer cont: stateContainers)
+                            {
+                                collides |= Collide.LineWithBox(
+                                        x1, y1, x2, y2, 
+                                        cont.getX(), cont.getY(),
+                                        cont.width, cont.height);
+                            }
+                            if (!collides)
+                            {
+                                cancel = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (!cancel) // the loop finished without finding a proper candidate
+                    {
+                        failure = true;
+                        break;
+                    }
+
+                    double x1 = start.getX()+vec1.getX()*(start.width / 2 + 1);
+                    double y1 = start.getY()+vec1.getY()*(start.height / 2 + 1);
+                    double x2 = end.getX()+vec2.getX()*(end.width / 2 + 1);
+                    double y2 = end.getY()+vec2.getY()*(end.height / 2 + 1);
+
+                    TransitionArrow arr = new TransitionArrow(t);
+                    arr.setStart(x1, y1);
+                    arr.setEnd(x2, y2);
+                    transitionArrows.add(arr);
+                }
+            } 
+        }           
         
-        width  = Math.max(Math.abs(minx), Math.abs(maxx)) * 2 + margin * 2;
-        height = Math.max(Math.abs(miny), Math.abs(maxy)) * 2 + margin * 2;
+        width  = Math.max(Math.abs(bounds.getMinX()), Math.abs(bounds.getMaxX())) * 2;
+        height = Math.max(Math.abs(bounds.getMinY()), Math.abs(bounds.getMaxY())) * 2;
+        
     }
     
     /**
@@ -182,6 +258,16 @@ public abstract class StateLayout {
     public void setMargin(double distance)
     {
         margin = distance;
+    }
+    
+    public double getOuterWidth()
+    {
+        return width + margin * 2;
+    }
+    
+    public double getOuterHeight()
+    {
+        return height + margin * 2;
     }
     
     /**

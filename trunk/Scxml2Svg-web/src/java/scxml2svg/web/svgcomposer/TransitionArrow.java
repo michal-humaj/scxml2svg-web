@@ -23,14 +23,35 @@ public class TransitionArrow {
     
     public Node toNode(Document doc)
     {
+        Element group = doc.createElement("g");
+        group.setAttribute("class", "transition"+ (transition.isInitial()? " initial": ""));
+        
         Element line = doc.createElement("line");
-        line.setAttribute("class", "transition"+ (transition.isInitial()? " initial": ""));
         line.setAttribute("x1", Double.toString(startX));
         line.setAttribute("y1", Double.toString(startY));
         line.setAttribute("x2", Double.toString(endX));
         line.setAttribute("y2", Double.toString(endY));
-                
-        return line;
+        group.appendChild(line);
+      
+        if (transition.isInitial())
+        {
+            Element circle = doc.createElement("circle");
+            circle.setAttribute("cx", Double.toString(startX));
+            circle.setAttribute("cy", Double.toString(startY));
+            circle.setAttribute("r", "5");
+            group.appendChild(circle);
+        }
+        
+        double degs = (new Vector(endX-startX, endY-startY)).getRads()*(180/(Math.PI)) + 90;
+        
+        // arrow head
+        Element head = doc.createElement("polygon");
+        head.setAttribute("class","arrow-head");
+        head.setAttribute("transform", "translate("+endX+","+endY+") rotate("+degs+")");
+        head.setAttribute("points","0,0 -4,-8 4,-8");
+        group.appendChild(head);
+        
+        return group;
     }
     
     public void setStart(double x, double y)

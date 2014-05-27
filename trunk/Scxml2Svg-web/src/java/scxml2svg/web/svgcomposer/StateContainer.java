@@ -34,10 +34,10 @@ public class StateContainer extends StateLayout {
         Element group = doc.createElement("g");
         group.setAttribute("class", "state-group");
         
-        group.setAttribute("transform", "translate("+(-getX()-width/2)+","+(getY()-height/2)+")");
+        group.setAttribute("transform", "translate("+(getX()-width/2)+","+(getY()-height/2)+")");
         Element rect;
         {
-            double w = width - margin*2, h = height - margin*2;
+            double w = width, h = height;
             rect = doc.createElement("rect");
             rect.setAttribute("x", Double.toString(0));
             rect.setAttribute("width", Double.toString(w));
@@ -83,8 +83,8 @@ public class StateContainer extends StateLayout {
         super.layout();
         Size size = TextUtils.getTextSize(thisState.getId(),true,14);
         
-        width = Math.max(width, size.getWidth()+(margin+padding)*2);
-        height += 10;
+        width = Math.max(width, size.getWidth()+padding*2);
+        height += 14;
     }
     
     public State getState()

@@ -30,11 +30,19 @@ public class SvgFactory {
         State d = l.addChild(new State("dolor"));
         d.addChild(new State("consectetur"));
         
+        State k = new State("nbfoas");
+        k.addChild(new State("sbgousadfas"));
+        k.addChild(new State("Ipsbgaoisum"));
+        k.addChild(new State("abusds"));
+        k.addChild(new State("abwgoas baoisgb"));
+         
         State s = new State("beni");
         
+        State iuctus = new State("iuctus");
+        
         System.out.println(
-        SvgComposer.composeFromRootStates(new State[] { l , s, new State("iuctus"), new State("ferrum"), new State("terra")},
-                                          Arrays.asList(new Transition(null, l, true), new Transition(l,s,false))
+        SvgComposer.composeFromRootStates(new State[] { l , s, k, iuctus, new State("terra")},
+                                          Arrays.asList(new Transition(null, l, true), new Transition(s,iuctus,false), new Transition(null, d, true))
                 ).toString()
         );
     }
