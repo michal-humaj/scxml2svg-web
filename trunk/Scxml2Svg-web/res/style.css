@@ -1,0 +1,15 @@
+svg {
+	font-family: Arial;
+	font-size: 10px;
+}
+
+.state-rect {
+    stroke: black;
+    stroke-width: 1;
+    fill: white;
+}
+
+.id-caption {
+	font-weight: bold;
+	fill: red;
+}
