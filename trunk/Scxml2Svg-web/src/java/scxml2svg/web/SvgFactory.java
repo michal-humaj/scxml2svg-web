@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import scxml2svg.web.scxmlmodel.State;
 import scxml2svg.web.scxmlmodel.Transition;
+import scxml2svg.web.scxmlparser.SCXMLParser;
 import scxml2svg.web.svgcomposer.SvgComposer;
 
 /**
@@ -24,25 +25,20 @@ public class SvgFactory {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        State l = new State("agno");
-        l.addChild(new State("lorem"));
-        l.addChild(new State("Ipsum"));
-        State d = l.addChild(new State("dolor"));
-        d.addChild(new State("consectetur"));
+        SCXMLParser scp = new SCXMLParser();
+        try{
+            scp.process("/home/xbrenkus/Documents/pb138repo/scxml2svg-web/Scxml2Svg-web/src/java/scxml2svg/exampleFiles/newTest.scxml");
+            //for(State st: scp.getRootStates()) System.out.println(st);
+            //scp.printStatesToStdOut();
+            }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
         
-        State k = new State("nbfoas");
-        k.addChild(new State("sbgousadfas"));
-        k.addChild(new State("Ipsbgaoisum"));
-        k.addChild(new State("abusds"));
-        k.addChild(new State("abwgoas baoisgb"));
-         
-        State s = new State("beni");
-        
-        State iuctus = new State("iuctus");
         
         System.out.println(
-        SvgComposer.composeFromRootStates(new State[] { l , s, k, iuctus, new State("terra")},
-                                          Arrays.asList(new Transition(null, l, true), new Transition(s,iuctus,false), new Transition(null, d, true))
+        SvgComposer.composeFromRootStates(scp.getRootStates().toArray(new State[0]), scp.getAllTransitions()
+                                          
                 ).toString()
         );
     }

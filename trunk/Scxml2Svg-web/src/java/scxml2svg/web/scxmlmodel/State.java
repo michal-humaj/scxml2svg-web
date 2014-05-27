@@ -79,7 +79,12 @@ public class State {
         }
         
         transitions.add(transition);
-    }    
+    }
+    
+    @Override
+    public String toString(){
+        return "State id: " + id + ", parent: " + parent;
+    }
     
     protected String id;
     protected State parent;

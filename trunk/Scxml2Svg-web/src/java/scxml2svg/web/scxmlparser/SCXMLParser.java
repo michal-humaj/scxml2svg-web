@@ -27,7 +27,8 @@ public class SCXMLParser{
         SCXMLParser scp = new SCXMLParser();
         try{
             scp.process("/home/xbrenkus/Documents/pb138repo/scxml2svg-web/Scxml2Svg-web/src/java/scxml2svg/exampleFiles/newTest.scxml");
-            scp.printStatesToStdOut();
+            //for(State st: scp.getRootStates()) System.out.println(st);
+            //scp.printStatesToStdOut();
             }
         catch(Exception e){
             System.out.println(e.getMessage());
@@ -43,7 +44,7 @@ public class SCXMLParser{
     * Parsed states are stored in here
     */
     private List<State> states;
-	
+    
     /**
      * Parsed transitions are stored in here
      */
@@ -66,14 +67,19 @@ public class SCXMLParser{
     }
     
     /**
-     * Returns main state of scxml document
+     * Returns all states without parents extracted from scxml document
      *
-     * @return  root state
+     * @return  all states with no parent
      */
-    public State getRootState(){
-        return states == null ? null : states.get(0);
-    }
+    public List<State> getRootStates(){
+        List rootStates = new ArrayList();
+        for(State st : states)
+            if(st.getParent() == null)
+                rootStates.add(st);
 
+        return rootStates;
+    }
+    
     /**
      * Returns all states extracted from scxml document
      *
@@ -91,7 +97,7 @@ public class SCXMLParser{
     public List<Transition> getAllTransitions(){
         return Collections.unmodifiableList(transitions);
     }
-	
+
     /**
     * For debugging purposes, prints contents of this class to std out
     */
