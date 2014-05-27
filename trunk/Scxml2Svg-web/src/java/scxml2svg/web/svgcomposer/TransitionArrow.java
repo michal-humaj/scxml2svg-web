@@ -42,7 +42,7 @@ public class TransitionArrow {
             group.appendChild(circle);
         }
         
-        double degs = (new Vector(endX-startX, endY-startY)).getRads()*(180/(Math.PI)) + 90;
+        double degs = (new Vector(endX-startX, endY-startY)).getRads()*(180/(Math.PI)) +90;
         
         // arrow head
         Element head = doc.createElement("polygon");

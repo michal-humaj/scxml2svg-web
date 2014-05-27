@@ -118,7 +118,6 @@ public abstract class StateLayout {
             
             // Create the transition arrows
             // Bruteforce them so that they don't collide with states
-            Vector[] possibleOrigins =new Vector[] { new Vector(0,-1), new Vector(1,0), new Vector(0,1), new Vector(-1,0) };
             for (Transition t: transitions)
             {
                 StateContainer end = null;
@@ -131,6 +130,8 @@ public abstract class StateLayout {
 
                 if (t.isInitial())
                 {
+                    Vector[] possibleOrigins =new Vector[] { new Vector(0,-1), new Vector(-1,0), new Vector(0,1), new Vector(1,0) };
+                    
                     Vector vec = null;
                     for (Vector v : possibleOrigins) {
                         boolean collides = false;
@@ -166,7 +167,8 @@ public abstract class StateLayout {
                     double xcor = end.getX()+vec.getX()*(end.width/2+30);
                     double ycor = end.getY()+vec.getY()*(end.height/2+30);
 
-                    bounds.update(xcor+5, ycor);
+                    bounds.update(xcor+10, ycor+10);
+                    bounds.update(xcor-10, ycor-10);
 
                     arr.setStart(xcor,ycor);
 
@@ -178,6 +180,8 @@ public abstract class StateLayout {
 
                 } else { // t.isInitial()
                     StateContainer start = null;
+                    
+                    Vector[] possibleOrigins =new Vector[] { new Vector(1,0), new Vector(0,-1), new Vector(-1,0), new Vector(0,1) };
 
                     for (StateContainer c: stateContainers)
                     {
@@ -189,13 +193,23 @@ public abstract class StateLayout {
 
                     Vector vec1 = possibleOrigins[0];
                     Vector vec2 = possibleOrigins[0];
+                    int dir = (int) Math.round(
+                            new Vector(end.getX() - start.getX(), end.getY() - start.getY())
+                                .getRads() / (Math.PI / 2));
                     boolean cancel = false;
-                    for (int i = 0; i < possibleOrigins.length && !cancel; i++)
+                    for (int i = -1; i < possibleOrigins.length && !cancel; i++)
                     {
-                        for (int j = 0; j < possibleOrigins.length && !cancel; j++)
+                        for (int j = -1; j < possibleOrigins.length && !cancel; j++)
                         {
-                            vec1 = possibleOrigins[i];
-                            vec2 = possibleOrigins[j];
+                            if (i==-1)
+                                vec1 = possibleOrigins[dir];
+                            else
+                                vec1 = possibleOrigins[i];
+                            
+                            if (j==-1)
+                                vec1 = possibleOrigins[(dir+2) % 4];
+                            else
+                                vec2 = possibleOrigins[j];
 
                             double x1 = start.getX()+vec1.getX()*(start.width / 2 + 1);
                             double y1 = start.getY()+vec1.getY()*(start.height / 2 + 1);

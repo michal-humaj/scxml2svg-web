@@ -11,6 +11,9 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.List;
 import org.w3c.dom.*;
+import scxml2svg.web.scxmlmodel.FinalState;
+import scxml2svg.web.scxmlmodel.HistoryState;
+import scxml2svg.web.scxmlmodel.ParallelState;
 import scxml2svg.web.scxmlmodel.State; 
 import scxml2svg.web.scxmlmodel.Transition;
 
@@ -35,17 +38,40 @@ public class StateContainer extends StateLayout {
         group.setAttribute("class", "state-group");
         
         group.setAttribute("transform", "translate("+(getX()-width/2)+","+(getY()-height/2)+")");
+        
         Element rect;
         {
             double w = width, h = height;
+            String className = "state-rect";
+            if (thisState instanceof FinalState)
+                className = "final-rect";
+            else if (thisState instanceof ParallelState)
+                className = "parallel-rect";
+            else if (thisState instanceof HistoryState)
+                className = "history-rect";
+                       
+            
             rect = doc.createElement("rect");
             rect.setAttribute("x", Double.toString(0));
             rect.setAttribute("width", Double.toString(w));
             rect.setAttribute("y", Double.toString(0));
             rect.setAttribute("height", Double.toString(h));
-            rect.setAttribute("class", "state-rect");
+            rect.setAttribute("class", className);
         }
         group.appendChild(rect);
+        
+        // Add another rectangle if this state is final
+            
+        if (thisState instanceof FinalState)
+        {
+            Element finalRect = doc.createElement("rect");
+            finalRect.setAttribute("x", Double.toString(-2));
+            finalRect.setAttribute("width", Double.toString(width+4));
+            finalRect.setAttribute("y", Double.toString(-2));
+            finalRect.setAttribute("height", Double.toString(height+4));
+            finalRect.setAttribute("class", "final-rect");
+            group.appendChild(finalRect);
+        }
         
         Element layoutElement = doc.createElement("g");
         layoutElement.setAttribute("transform", "translate("+(getWidth()/2)+","+((height+10)/2)+")");
@@ -84,7 +110,7 @@ public class StateContainer extends StateLayout {
         Size size = TextUtils.getTextSize(thisState.getId(),true,14);
         
         width = Math.max(width, size.getWidth()+padding*2);
-        height += 14;
+        height += size.getHeight();
     }
     
     public State getState()
