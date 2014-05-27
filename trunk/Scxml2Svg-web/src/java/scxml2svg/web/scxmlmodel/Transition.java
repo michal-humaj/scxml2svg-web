@@ -1,8 +1,7 @@
 package scxml2svg.web.scxmlmodel;
 
 /**
- *
- * @author peping
+ * This class represents a transition
  */
 public class Transition {
     /**

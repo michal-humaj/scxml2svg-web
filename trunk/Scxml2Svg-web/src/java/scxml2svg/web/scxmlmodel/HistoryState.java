@@ -1,26 +1,37 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package scxml2svg.web.scxmlmodel;
 
 /**
- *
- * @author Adam
+ *  This class represents a history state
  */
 public class HistoryState extends State{
-	public HistoryState(String id){
+    /**
+     * Constructor, creates a new history state and sets it's id
+     * 
+     * @param   id      ID of new state
+     */
+    public HistoryState(String id){
         super(id);
     }
-	public HistoryState(String id, State parent){
+    /**
+     * Constructor, creates a new history state and sets it's id and parent
+     * 
+     * @param   id      ID of new state
+     * @param   parent  Parent of new state
+     */
+    public HistoryState(String id, State parent){
         super(id, parent);
     }
-	public HistoryState(String id, State parent, String type){
+    /**
+     * Constructor, creates a new history state and sets it's id, parent and type
+     * 
+     * @param   id      ID of new state
+     * @param   parent  Parent of new state
+     * @param   type    Type of the state
+     */
+    public HistoryState(String id, State parent, String type){
         super(id, parent);
 		this.type = type;
     }
 	
-	private String type;
+    private String type;
 }

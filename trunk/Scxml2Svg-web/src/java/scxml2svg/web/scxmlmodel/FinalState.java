@@ -1,20 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package scxml2svg.web.scxmlmodel;
 
 /**
- *
- * @author Adam
+ *  This class represents a final state
  */
 public class FinalState extends State{
-	public FinalState(String id){
+    /**
+     * Constructor, creates a new final state and sets it's id
+     * 
+     * @param   id      ID of new state
+     */
+    public FinalState(String id){
         super(id);
     }
-	public FinalState(String id, State parent){
+    /**
+     * Constructor, creates a new final state and sets it's id and parent
+     * 
+     * @param   id      ID of new state
+     * @param   parent  Parent of new state
+     */
+    public FinalState(String id, State parent){
         super(id, parent);
     }
 }

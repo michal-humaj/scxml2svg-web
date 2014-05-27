@@ -18,8 +18,8 @@ import javax.xml.XMLConstants;
 
 
 /**
-* SCXMLParser parses SCXML documents and converts them to java objects
-*/
+ *  SCXMLParser parses SCXML documents and converts them to java objects
+ */
 public class SCXMLParser{
     
     //example main
@@ -187,7 +187,7 @@ public class SCXMLParser{
      * Recursive method that should process each element of a document
      * It is automatically called for each child element of processed element
      *
-     * @param 	e		Element to process
+     * @param 	e	Element to process
      * @param 	parent	Parent of the element
      */
     private void processElement(Element e, State parent){

@@ -1,20 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package scxml2svg.web.scxmlmodel;
 
 /**
- *
- * @author Adam
+ *  This class represents a prallel state
  */
 public class ParallelState extends State{
-	public ParallelState(String id){
+    /**
+     * Constructor, creates a new parallel state and sets it's id
+     * 
+     * @param   id      ID of new state
+     */
+    public ParallelState(String id){
         super(id);
     }
-	public ParallelState(String id, State parent){
+    /**
+     * Constructor, creates a new prallel state and sets it's id and parent
+     * 
+     * @param   id      ID of new state
+     * @param   parent  Parent of new state
+     */
+    public ParallelState(String id, State parent){
         super(id, parent);
     }
 }

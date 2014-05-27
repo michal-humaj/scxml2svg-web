@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package scxml2svg.web.scxmlmodel;
 
 import java.util.Collections;
@@ -12,40 +6,71 @@ import java.util.NoSuchElementException;
 import java.util.ArrayList;
 
 /**
- *
- * @author pepin_000
+ *  This class represents a state
  */
 public class State {
+    
+    /**
+     * Constructor, creates a new state and sets it's id 
+     * 
+     * @param   id      ID of new state
+     */
     public State(String id)
     {
         this(id, null);
     }
-	
+
+    /**
+     * Constructor, creates a new state and sets it's id and parent
+     * 
+     * @param   id      ID of new state
+     * @param   parent  Parent of new state
+     */
     public State(String id, State parent)
     {
         this.id = id;
-		this.parent = parent;
-		children = new ArrayList<>();
+	this.parent = parent;
+	children = new ArrayList<>();
     }
     
+    /**
+     * Gets ID of this state
+     * 
+     * @return  ID
+     */
     public String getId() 
     { 
         return id; 
     }
-	
+    
+    /**
+     * Gets the parent state of this state
+     * 
+     * @return  parent state
+     */
     public State getParent() 
     { 
         return parent; 
     }
 	
+    /**
+     * Gets all children of this state
+     * 
+     * @return  List of children
+     */
     public List<State> getChildren() 
     { 
         return Collections.unmodifiableList(children);
     }
-	
-	public State addChild(State state){
-		return children.add(state) == true ? state : null;
-	}
+    
+    /**
+     * Adds a child state to this state
+     * 
+     * @param   State to add as a child
+     */
+    public State addChild(State state){
+	return children.add(state) == true ? state : null;
+    }
     
     /**
      * *Internal* Adds a transition to the list of transitions. 
@@ -81,6 +106,11 @@ public class State {
         transitions.add(transition);
     }
     
+    /**
+     * Converts this object to string
+     *
+     * @return  String with description of this object
+     */
     @Override
     public String toString(){
         return "State id: " + id + ", parent: " + parent;
@@ -88,6 +118,6 @@ public class State {
     
     protected String id;
     protected State parent;
-	protected List<State> children;
+    protected List<State> children;
     protected List<Transition> transitions;
 }
