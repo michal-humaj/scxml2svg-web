@@ -7,6 +7,7 @@
 package pb138.web;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,9 +26,9 @@ import javax.servlet.http.Part;
 
 /**
  *
- * @author Doboss
+ * @author Dobroslav Bernáth
  */
-@WebServlet(name = "ActionServlet", urlPatterns = {"/upload"})
+@WebServlet(name = "ActionServlet", urlPatterns = {"/upload", "/downloadSVG", "/index"})
 @MultipartConfig
 public class ActionServlet extends HttpServlet {
 
@@ -42,8 +44,28 @@ public class ActionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+         if (request.getServletPath().equals("/upload")) {
+             uploadFile(request, response);
+         }   
+         
+         if (request.getServletPath().equals("/index")) {
+             request.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(request, response);
+         } 
+         
+         if (request.getServletPath().equals("/downloadSVG")) {
+              downloadSVG(request, response);
+         }
+    }
+    
+    private void uploadFile(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        // Uploaded file destination
+        String destination = "D:\\Test";
+        
+        
          // Create path components to save the file
-        final String path = request.getParameter("destination");
+        final String path = destination;
         final Part filePart = request.getPart("file");
         final String fileName = getFileName(filePart);
 
@@ -82,6 +104,49 @@ public class ActionServlet extends HttpServlet {
             }
         }
     }
+    
+    private void downloadSVG(HttpServletRequest request, HttpServletResponse response) 
+            throws FileNotFoundException, IOException {
+        
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition",
+        "attachment;filename=hovno.txt");
+        
+        // File name
+        String fileName;
+        fileName = "D:\\Test\\hovno.txt";
+        
+        // Setting Streams
+        File file = new File(fileName);
+        FileInputStream fileIn = new FileInputStream(file);
+        ServletOutputStream out = response.getOutputStream();
+
+        byte[] outputByte = new byte[4096];
+        //copy binary contect to output stream
+        while(fileIn.read(outputByte, 0, 4096) != -1)
+        {
+                out.write(outputByte, 0, 4096);
+        }
+        fileIn.close();
+        out.flush();
+        out.close();
+    
+    }
+    
+    // tuto bude metoda na menenie css stylu
+    // 
+    /*
+    colors:
+    red = FF3300
+    blue = 3366CC
+    green = 339933
+    black = 000000
+    yellow = FFCC00
+    
+    
+    
+    
+    */
     
     private String getFileName(final Part part) {
     final String partHeader = part.getHeader("content-disposition");
