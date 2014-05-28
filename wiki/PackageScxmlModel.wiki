@@ -32,11 +32,14 @@ _(extends State)_
   * @param parent - Parent of new state
 
 ------------------------------------------
-
+<div id="History State"></div>
 == History State ==
 
 _This class represents a history state_
 _(extends State)_
+
+*Attributes*
+  * private String type
 
 ==== public HistoryState(String id) ====
 
@@ -55,3 +58,5 @@ _(extends State)_
   * @param id - ID of new state
   * @param parent - Parent of new state
   * @param type - Type of the state
+
+----------------------------------------
