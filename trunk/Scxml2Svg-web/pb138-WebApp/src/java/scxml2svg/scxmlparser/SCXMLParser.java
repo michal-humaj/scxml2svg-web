@@ -31,19 +31,19 @@ import scxml2svg.scxmlmodel.Transition;
 public class SCXMLParser{
     
     //example main
-    /*public static void main(String[] args){
+    public static void main(String[] args){
         SCXMLParser scp = new SCXMLParser();
         try{
-            scp.process("/home/xbrenkus/Documents/pb138repo/scxml2svg-web/Scxml2Svg-web/src/java/scxml2svg/exampleFiles/newTest.scxml");
+            scp.process("C:\\Users\\Adam\\Documents\\NetBeansProjects\\pb138proj\\build\\classes\\scxml2svg\\exampleFiles\\newTest.scxml");
             //for(State st: scp.getRootStates()) System.out.println(st);
-            //scp.printStatesToStdOut();
+            scp.printStatesToStdOut();
             }
         catch(Exception e){
             System.out.println(e.getMessage());
         }
-    }*/
+    }
 	
-    /**
+   /**
      * W3C object model representation of a XML document
      */
     private Document scxmlDoc;
@@ -244,7 +244,7 @@ public class SCXMLParser{
          */
 	private void processTransitions(Element e, State parent){
 		// Load initial transitions
-                for(Element tmpEl : getChildrenByTagName(e, "initial"))
+        for(Element tmpEl : getChildrenByTagName(e, "initial"))
 			processInitial(tmpEl, e);
 		// Load transitions
 		for(Element tmpEl : getChildrenByTagName(e, "transition")){
@@ -255,6 +255,11 @@ public class SCXMLParser{
                         String event = tmpEl.getAttribute("event");
 			if(to != null && from != null)
                             transitions.add(new Transition(from, to, event));
+		}
+		// Process initial attribute on the state
+		String init = e.getAttribute("initial");
+		if(init != null && !init.equals("") && getState(init) != null){
+			transitions.add(new Transition(getState(e.getAttribute("id")), getState(init), true));
 		}
 		
 		// Repeat for states
@@ -344,6 +349,7 @@ public class SCXMLParser{
 		if(parent != null){
 			parent.addChild(newState);
 		}
+		
 		
 		return (states.add(newState) ? newState : null);
     }
