@@ -34,3 +34,17 @@ _(implements ErrorHandler)_
   * Catches a fatalError from document validation
   * @param exception - exception with warning
   * @throws SAXException
+
+-------------------------------------------------
+
+== Scxml Parser ==
+
+_SCXMLParser parses SCXML documents and converts them to java objects_
+_Contains example of main_
+
+*Attributes:*
+  * private Document scxmlDoc
+  * private List< State > states _(Parsed states are stored in here)_
+  * private List< Transition > transitions _(Parsed transitions are)_ stored in here
+
+====  ====
