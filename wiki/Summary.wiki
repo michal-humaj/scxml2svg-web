@@ -9,5 +9,5 @@ There's a list of all wiki pages in their respective order.
 
 Introduction & Development Analysis:
   * [Home]
-  * [https://code.google.com/p/scxml2svg-web/wiki/Developers]
-  * https://code.google.com/p/scxml2svg-web/wiki/ProjectScheme
+  * [Developers]
+  * [ProjectScheme]
