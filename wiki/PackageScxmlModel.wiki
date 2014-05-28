@@ -1,0 +1,35 @@
+#summary Documentation for pb138.scxmlmodel package
+
+= Package ScmlModel =
+
+Package ScmlModel
+
+
+= Classes =
+
+  * [[#Final State]]
+  * [[#History State]]
+  * [[#Parallel State]]
+  * [[#State]]
+  * [[#Transition]]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+== Final State ==
