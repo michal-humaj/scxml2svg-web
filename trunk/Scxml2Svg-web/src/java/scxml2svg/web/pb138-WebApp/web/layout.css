@@ -504,7 +504,7 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 #newsletter{
 	display:block;
 	float:left;
-	width:300px;
+	width:400px;
 	}
 
 /* ----------------------------------------------Copyright-------------------------------------*/
@@ -584,7 +584,7 @@ textarea.codeBox {
     resize: vertical;
     width: 98%;
     overflow: auto;
-    max-width: 98%;
+    max-width: 95%;
     max-height: 10%;
 }
 
@@ -595,3 +595,12 @@ footer {
     height: 20%;
 }
                                                 
+.ui-widget-content {
+    background-color: black;
+    padding: 1px;
+    max-height: 350px;
+}
+
+.resizable {
+    background-color: black;
+}
