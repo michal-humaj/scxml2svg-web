@@ -1,0 +1,36 @@
+#summary Documentation for pb138.scxmlparser package
+
+= Package Sxml Parser =
+
+Scxml Parser
+
+
+= Classes =
+
+  * [#Document_Error_Handler]
+  * [#Scxml_Parser]
+
+--------------------------------------
+
+== Document Error Handler ==
+
+_Error handler for xml schema validation_
+_(implements ErrorHandler)_
+
+==== public void warning(SAXParseException exception) ====
+
+  * Catches a warning from document validation
+  * @param exception - exception with warning
+  * @throws SAXException
+
+==== public void error(SAXParseException exception) ====
+
+  * Catches a error from document validation
+  * @param exception - exception with warning
+  * @throws SAXException
+
+==== public void fatalError(SAXParseException exception) ====
+
+  * Catches a fatalError from document validation
+  * @param exception - exception with warning
+  * @throws SAXException
