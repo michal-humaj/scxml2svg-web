@@ -83,3 +83,16 @@ _Contains example of main_
 
   * Main processing method, parses scmxml document
   * @param doc - Fully initialized W3C object model representation of a XML document
+
+==== private void processElement(Element e) ====
+
+  * Recursive method that should process each element of a document
+  * It is automatically called for each child element of processed element
+  * @param e - Element to process
+
+==== private void processElement(Element e, State parent) ====
+
+  * Recursive method that should process each element of a document
+  * It is automatically called for each child element of processed element
+  * @param e - Element to process
+  * @param parent - Parent of the element
