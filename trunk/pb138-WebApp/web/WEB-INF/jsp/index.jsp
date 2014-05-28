@@ -2,86 +2,87 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">      
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>SCXML to SVG Web Converter</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />        
-        <link rel="stylesheet" type="text/css" href="<c:url value="/css/layout.css"/>" />           
-        <link rel="stylesheet" type="text/css" href="<c:url value="/codemirror/lib/codemirror.css" />" />                
-        <link rel="stylesheet" type="text/css" href="<c:url value="/codemirror/theme/pastel-on-dark.css" />" />                
+        <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/css/layout.css"/>" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/codemirror/lib/codemirror.css" />" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/codemirror/theme/pastel-on-dark.css" />" />
 
         <link href="<c:url value="/jquery/css/smoothness/jquery-ui-1.10.4.custom.css"/>" rel="stylesheet">
-	<script src="<c:url value="/jquery/js/jquery-1.10.2.js"/>"></script>
-	<script src="<c:url value="/jquery/js/jquery-ui-1.10.4.custom.js"/>"></script>
-                
-        <script type="text/javascript" src="<c:url value="/codemirror/lib/codemirror.js"/>"></script>
-        <script type="text/javascript" src="<c:url value="/codemirror/mode/javascript/javascript.js"/>"></script>
-        <script>
-            $(function() {
-                $(".resizable").resizable({
-                    handles: 's, n'
+            <script src="<c:url value="/jquery/js/jquery-1.10.2.js"/>"></script>
+            <script src="<c:url value="/jquery/js/jquery-ui-1.10.4.custom.js"/>"></script>
+
+            <script type="text/javascript" src="<c:url value="/codemirror/lib/codemirror.js"/>"></script>
+            <script type="text/javascript" src="<c:url value="/codemirror/mode/javascript/javascript.js"/>"></script>
+            <script>
+                $(function() {
+                    $(".resizable").resizable({
+                        handles: 's'
+                    });
                 });
-            });
-        </script>
+            </script>
     </head>
 
-    <body>                   
+    <body>
         <div class="container">
             <div class="uploadBox">
-                <h1>Welcome to SCXML to SVG Web Converter</h1>
-                <p>
-                    Please select SCXML file from your computer:
-                </p>
-                <form method="POST" action="upload" enctype="multipart/form-data" >
-                    File:<input type="file" name="file" id="file" /><br/></br>
-                    <input type="submit" value="Upload" name="upload" id="upload" />                    
-                </form>
-            </div>
-            <hr>
-            <div class="codeBox">    
-                <div class="scxmlBox">
-                    <form method="GET" action="downloadXML" >
-                        <input type="submit" value="Download SCXML file" name="DownloadXML" style="text-align: left"/>
-                    </form>                                         
-                    <div class="resizable ui-widget-content">
-                        <textarea id="scxmlArea" class="CodeMirror"><c:out value="${scxmlCode}"/></textarea>                                                                    
-                    </div>
+                <h1><span class="hoverH1">SCXML</span> &#8594; SVG<span style="color: #8F938F;font-weight: normal;"> Web Converter</span></h1>
+                <div class="uploadForm">
+                    <p style="font-size: 15px;">Please select SCXML file from your computer:</p>
+                    <form method="POST" action="upload" enctype="multipart/form-data" >
+                        File: <input class="fileInput" type="file" name="file" id="file" alt="Select file to upload"/>
+                        <input class="uploadButton" type="submit" value="Upload" name="upload" id="upload" alt="Upload file" />
+                    </form>
                 </div>
-                <div class="svgBox">                    
-                    <form method="GET" action="downloadSVG" >
-                        <input type="submit" value="Download SVG file" name="downloadSVG" style="text-align: left"/>
-                    </form>  
-                   
-                    <div class="resizable ui-widget-content">
-                        <textarea id="svgArea" class="CodeMirror"><c:out value="${svgCode}" /></textarea>
-                        <div>
-                            
-                        
+            </div>
+            <hr />
+                <div class="codeBox">    
+                    <div class="scxmlBox">
+                        <form method="GET" action="downloadXML" >
+                            <input class="downloadButton" type="submit" value="Download SCXML file" name="DownloadXML" alt="Download SCXML file" />
+                        </form>
+                        <div class="resizable ui-widget-content">
+                            <textarea id="scxmlArea" class="CodeMirror"><c:out value="${scxmlCode}"/></textarea>                                                                    
                         </div>
-                        <script type="text/javascript">
-                            var config, editor;
-                            config = {
-                                lineNumbers: true,
-                                mode: "xml",
-                                theme: "pastel-on-dark",
-                                readOnly: false
-                            };
-                            editor = CodeMirror.fromTextArea(document.getElementById("scxmlArea"), config);
-                            editor = CodeMirror.fromTextArea(document.getElementById("svgArea"), config);
-                        </script>
                     </div>
-                </div>        
-            </div>    
-                        
-              
-            <footer style="color: silver;">
-                <hr>
-                    <p style="text-align: left;">Project homepage: <a href="https://code.google.com/p/scxml2svg-web/">code.google.com/scxml2svg-web</a><br />
-                        Wiki: <a href="https://code.google.com/p/scxml2svg-web/wiki/Home">code.google.com/scxml2svg-web/wiki</a><br /><br />
-                        <b>Developers:</b><ul><li>Dobroslav Bernáth</li><li>Ivo Hrádek</li><li>Josef Hornych</li><li>Adam Brenkous</li></ul></p>
-            </footer>
+                    <div class="svgBox">                    
+                        <form method="GET" action="downloadSVG" >
+                            <input class="downloadButton" type="submit" value="Download SVG file" name="downloadSVG" alt="Download SVG file" />
+                        </form>
+                        <div class="resizable ui-widget-content">
+                            <textarea id="svgArea" class="CodeMirror"><c:out value="${svgCode}" /></textarea>                            
+                            <script type="text/javascript">
+                                var config, editor;
+                                config = {
+                                    lineNumbers: true,
+                                    mode: "xml",
+                                    theme: "pastel-on-dark",
+                                    readOnly: false
+                                };
+                                editor = CodeMirror.fromTextArea(document.getElementById("scxmlArea"), config);
+                                editor = CodeMirror.fromTextArea(document.getElementById("svgArea"), config);
+                            </script>
+                        </div>
+                    </div>        
+                </div>    
+                <footer>
+                    <hr />
+                    <p style="text-align: left;">
+                        <strong>Project homepage:</strong> <a href="https://code.google.com/p/scxml2svg-web">code.google.com/scxml2svg-web</a><br />
+                        <strong>Wiki:</strong> <a href="https://code.google.com/p/scxml2svg-web/wiki/Home">code.google.com/scxml2svg-web/wiki</a><br />
+                            <strong>Developers:</strong>
+                            <ul style="margin-top: -15px;margin-left:20px;">
+                                <li>Dobroslav Bernáth</li>
+                                <li>Adam Brenkous</li>
+                                <li>Josef Hornych</li>
+                                <li>Ivo Hrádek</li>
+                            </ul>
+                    </p>
+                </footer>
         </div>
     </body>
-</h
+</html>
