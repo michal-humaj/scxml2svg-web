@@ -172,4 +172,23 @@ _This class represents a transition_
   * @param event - tratnsition event
   * @param initial - whether this transition is initial
 
+==== public State fromState() ====
+
+  * Return the state where the transition originates
+  * @return the state from which the transition originates
+
+==== public State toState() ====
+
+  * Return the state where the transition ends
+  * @return the state where the transition ends
+
+==== public boolean isInitial() ====
+
+  * Return whether the transition is initial
+  * @return  true or false whether the transition is initial
+
+==== public String getEvent() ====
+
+  * Return whether the event for this transition
+  * @return  the event for this transition
 
