@@ -7,9 +7,9 @@ Package ScmlModel
 
 = Classes =
 
-  * [WikiSyntax#Final_State]
+  * [#Final_State]
   * [#History_State]
-  * [#ParallelState]
+  * [#Parallel_State]
   * [#State]
   * [#Transition]
 
