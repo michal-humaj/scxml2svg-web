@@ -13,9 +13,7 @@ There's a list of all wiki pages in their respective order.
 
 == Documentation ==
 
-  * [PakageScxmlModel]
+  * [PackageScxmlModel]
   * [PackageScxmlParser]
-
-
 
 
