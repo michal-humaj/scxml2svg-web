@@ -19,6 +19,12 @@ Package ScmlModel
 
 _This class represents a state_
 
+*Attributes*
+  * protected String id;
+  * protected State parent;
+  * protected List< State > children;
+  * protected List< Transition > transitions;
+
 ==== public State(String id) ====
 
   * Constructor, creates a new state and sets it's id
@@ -40,11 +46,26 @@ _This class represents a state_
   * Gets parent state of this state
   * @return  parent state
 
-==== public List<State> getChildren() ====
+==== public List< State > getChildren() ====
 
   * Gets all children of this state
   * @return  List of children
 
+==== public State addChild(State state) ====
+
+  * Adds a child state to this state 
+  * @param   State to add as a child
+
+==== public void addTransition(Transition transition) ====
+
+  * *Internal* Adds a transition to the list of transitions. 
+  * Checks if transition actually contains this state and if a transition 
+  * from this to the other state already exists.
+  * You won't need to call this method as it is automatically called by      
+  * Transition's constructor 
+  * @param transition
+  * @throws IllegalArgumentException
+  * @throws NoSuchElementException
 
 --------------------------------------
 
