@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scxml xmlns="http://www.w3.org/2005/07/scxml"
+       version="1.0"
+       initial="Main">
+
+  <state id="Main">
+    <state id="Test1">
+      <final id="Test1Sub2"/>
+    </state>
+
+      <onexit>
+        <log expr="&quot;Leaving Test3...&quot;"/>
+      </onexit>
+
+
+    <state id="Test5">
+
+      <parallel id="Test5P">
+        <onexit>
+          <log expr="&quot;all parallel states done&quot;"/>
+        </onexit>
+      </parallel>
+
+     
+      
+    </state>
+
+  </state>
+
+  <final id="final"/>
+
+</scxml>
