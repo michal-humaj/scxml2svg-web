@@ -15,6 +15,39 @@ Package ScmlModel
 
 --------------------------------------
 
+== State ==
+
+_This class represents a state_
+
+==== public State(String id) ====
+
+  * Constructor, creates a new state and sets it's id
+  * @param id - ID of new state
+
+==== public State(String id, State parent) ====
+
+  * Constructor, creates a new state and sets it's id and parent
+  * @param id - ID of new state
+  * @param parent - Parent of new state
+
+==== public String getId() ====
+
+  * Gets ID of this state
+  * @return  ID
+
+==== public State getParent() ====
+
+  * Gets parent state of this state
+  * @return  parent state
+
+==== public List<State> getChildren() ====
+
+  * Gets all children of this state
+  * @return  List of children
+
+
+--------------------------------------
+
 == Final State ==
 
 _This class represents a final state_
@@ -60,3 +93,19 @@ _(extends State)_
   * @param type - Type of the state
 
 ----------------------------------------
+
+==== Parallel State ====
+
+_This class represents a parallel state_
+_(extends State)_
+
+==== public ParallelState(String id) ====
+
+  * Constructor, creates a new parallel state and sets it's id
+  * @param id - ID of new state
+
+==== public ParallelState(String id, State parent) ====
+
+  * Constructor, creates a new parallel state and sets it's id and parent
+  * @param id - ID of new state
+  * @param parent - Parent of new state
