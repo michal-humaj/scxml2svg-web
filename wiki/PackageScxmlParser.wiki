@@ -96,3 +96,22 @@ _Contains example of main_
   * It is automatically called for each child element of processed element
   * @param e - Element to process
   * @param parent - Parent of the element
+
+==== private void processTransitions(Element e) ====
+
+  * Recursive method that should process each transition from element
+  * It is automatically called for each child element of processed element
+  * @param e - Element to process
+
+==== private void processTransitions(Element e, State parent) ====
+
+  * Recursive method that should process each transition from element
+  * It is automatically called for each child element of processed element
+  * @param e - Element to process
+  * @param parent - Parent of the element
+
+==== private void processInitial(Element e, Element parent) ====
+
+  * Processes each initial transition from element
+  * @param e - Element to process
+  * @param parent - Parent of the element
