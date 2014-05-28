@@ -7,8 +7,8 @@ Package ScmlModel
 
 = Classes =
 
-  * [#FinalState]
-  * [#HistoryState]
+  * [WikiSyntax#Final_State]
+  * [#History_State]
   * [#ParallelState]
   * [#State]
   * [#Transition]
@@ -191,4 +191,3 @@ _This class represents a transition_
 
   * Return whether the event for this transition
   * @return  the event for this transition
-
