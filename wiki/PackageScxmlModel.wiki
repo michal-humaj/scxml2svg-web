@@ -7,9 +7,9 @@ Package ScmlModel
 
 = Classes =
 
-  * [#Final State]
-  * [#History State]
-  * [#Parallel State]
+  * [#FinalState]
+  * [#HistoryState]
+  * [#ParallelState]
   * [#State]
   * [#Transition]
 
@@ -130,3 +130,46 @@ _(extends State)_
   * Constructor, creates a new parallel state and sets it's id and parent
   * @param id - ID of new state
   * @param parent - Parent of new state
+
+----------------------------------------
+
+== Transition ==
+
+_This class represents a transition_
+
+*Attributes*
+  * private State to, from;
+  * private boolean initial;
+  * private String event;
+  * private boolean condition;
+  * private String type;
+
+==== public Transition(State fromState, State toState) ====
+
+  * Creates a transition between 2 states
+  * @param fromState - the state from which the transition originates
+  * @param toState - the state in which the transition ends
+
+==== public Transition(State fromState, State toState, boolean initial) ====
+
+  * Creates a transition between 2 states
+  * @param fromState - the state from which the transition originates
+  * @param toState - the state in which the transition ends
+  * @param initial - whether this transition is initial
+ 
+==== public Transition(State fromState, State toState, String event) ====
+
+  * Creates a transition between 2 states
+  * @param fromState - the state from which the transition originates
+  * @param toState - the state in which the transition ends
+  * @param event - tratnsition event
+
+==== public Transition(State fromState, State toState, String event, boolean initial) ====
+
+  * Creates a transition between 2 states
+  * @param fromState - the state from which the transition originates
+  * @param toState - the state in which the transition ends
+  * @param event - tratnsition event
+  * @param initial - whether this transition is initial
+
+
