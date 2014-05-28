@@ -9,15 +9,16 @@ import org.w3c.dom.Document;
 import scxml2svg.scxmlmodel.State; 
 import scxml2svg.scxmlmodel.Transition;
 /**
- *
- * @author pepin_000
+ * State layout manager
+ * @author peping
  */
 public abstract class StateLayout {
     /**
-     * State layout manager
-     * 
-     * @param states
-     * @param transitions 
+     * Prepares a new potential layout.
+     * Selects only the transitions that have their endpoint in the input array
+     * of states.
+     * @param states states to be in this layout
+     * @param transitions all transitions available
      */
     public StateLayout(State[] states, List<Transition> transitions)
     {
@@ -48,7 +49,7 @@ public abstract class StateLayout {
     }
     
     /**
-     * Computes the layout
+     * Computes the layout.
      */
     public void layout()
     {        
@@ -198,12 +199,12 @@ public abstract class StateLayout {
                         for (int j = -1; j < possibleOrigins.length && !cancel; j++)
                         {
                             if (i==-1)
-                                vec1 = possibleOrigins[dir];
+                                vec1 = possibleOrigins[(dir + 4) % 4];
                             else
                                 vec1 = possibleOrigins[i];
                             
                             if (j==-1)
-                                vec1 = possibleOrigins[(dir+2) % 4];
+                                vec1 = possibleOrigins[(dir + 2) % 4];
                             else
                                 vec2 = possibleOrigins[j];
 
@@ -211,6 +212,13 @@ public abstract class StateLayout {
                             double y1 = start.getY()+vec1.getY()*(start.height / 2 + 1);
                             double x2 = end.getX()+vec2.getX()*(end.width / 2 + 1);
                             double y2 = end.getY()+vec2.getY()*(end.height / 2 + 1);
+                            
+                            // Shift the arrow a bit so that transition going both ways
+                            // between 2 states don't overlap
+                            x1 +=  vec1.getY() * 4;
+                            y1 +=  vec1.getX() * 4;
+                            x2 -=  vec2.getY() * 4;
+                            y2 -=  vec2.getX() * 4;
 
                             boolean collides = false;
                             for (StateContainer cont: stateContainers)
@@ -238,8 +246,22 @@ public abstract class StateLayout {
                     double y1 = start.getY()+vec1.getY()*(start.height / 2 + 1);
                     double x2 = end.getX()+vec2.getX()*(end.width / 2 + 1);
                     double y2 = end.getY()+vec2.getY()*(end.height / 2 + 1);
-
+                    
+                    // Shift the arrow a bit so that transition going both ways
+                    // between 2 states don't overlap
+                    x1 +=  vec1.getY() * 6;
+                    y1 +=  vec1.getX() * 6;
+                    x2 -=  vec2.getY() * 6;
+                    y2 -=  vec2.getX() * 6;
+                    
                     TransitionArrow arr = new TransitionArrow(t);
+                    
+                    if (new Vector(x2-x1, y2-y1).getLength() < arr.getEventTextSize().getWidth()+40)
+                    {
+                        failure = true;
+                        break;
+                    }
+                    
                     arr.setStart(x1, y1);
                     arr.setEnd(x2, y2);
                     transitionArrows.add(arr);
@@ -270,18 +292,26 @@ public abstract class StateLayout {
         margin = distance;
     }
     
+    /**
+     * Gets the outer width of this layout.
+     * @return outer width
+     */
     public double getOuterWidth()
     {
         return width + margin * 2;
     }
     
+    /**
+     * Gets the outer height of this layout.
+     * @return outer height
+     */
     public double getOuterHeight()
     {
         return height + margin * 2;
     }
     
     /**
-     * width getter
+     * Width getter.
      * @return width
      */
     public double getWidth()
@@ -290,8 +320,8 @@ public abstract class StateLayout {
     }
     
     /**
-     * height getter
-     * @return width
+     * Height getter.
+     * @return height
      */
     public double getHeight()
     {

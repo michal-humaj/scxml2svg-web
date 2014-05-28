@@ -1,8 +1,8 @@
 package scxml2svg.svgcomposer;
 
 /**
- *
- * @author pepin_000
+ * Static utility class for collisions on a 2D plane
+ * @author peping
  */
 public class Collide {
     /**
@@ -33,7 +33,7 @@ public class Collide {
     }
     
     /**
-     * returns true if line intersects with rectangle.
+     * Returns true if line intersects with rectangle.
      * 
      * @param x1
      * @param y1

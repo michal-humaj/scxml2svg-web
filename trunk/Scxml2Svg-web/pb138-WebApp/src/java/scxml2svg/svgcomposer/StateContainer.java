@@ -11,18 +11,23 @@ import scxml2svg.scxmlmodel.ParallelState;
 import scxml2svg.scxmlmodel.Transition;
 
 /**
- *
- * @author pepin_000
+ * Layout that represents a state.
+ * @author peping
  */
 public class StateContainer extends StateLayout {
     public StateContainer(State state, List<Transition> transitions)
     {
-        // TODO child nodes
         super((State[]) state.getChildren().toArray(new State[0]), transitions);
         
         thisState = state;
     }
     
+    /**
+     * Represent this State as a Node.
+     * 
+     * @param doc Document where to create nodes
+     * @return Node representing the State
+     */
     @Override public Node toNode(Document doc)
     {
         if (doc == null) return null;
@@ -31,6 +36,18 @@ public class StateContainer extends StateLayout {
         group.setAttribute("class", "state-group");
         
         group.setAttribute("transform", "translate("+(getX()-width/2)+","+(getY()-height/2)+")");
+        
+        // Add another rectangle if this state is final    
+        if (thisState instanceof FinalState)
+        {
+            Element finalRect = doc.createElement("rect");
+            finalRect.setAttribute("x", Double.toString(-2));
+            finalRect.setAttribute("width", Double.toString(width+4));
+            finalRect.setAttribute("y", Double.toString(-2));
+            finalRect.setAttribute("height", Double.toString(height+4));
+            finalRect.setAttribute("class", "final-rect");
+            group.appendChild(finalRect);
+        }
         
         Element rect;
         {
@@ -52,19 +69,6 @@ public class StateContainer extends StateLayout {
             rect.setAttribute("class", className);
         }
         group.appendChild(rect);
-        
-        // Add another rectangle if this state is final
-            
-        if (thisState instanceof FinalState)
-        {
-            Element finalRect = doc.createElement("rect");
-            finalRect.setAttribute("x", Double.toString(-2));
-            finalRect.setAttribute("width", Double.toString(width+4));
-            finalRect.setAttribute("y", Double.toString(-2));
-            finalRect.setAttribute("height", Double.toString(height+4));
-            finalRect.setAttribute("class", "final-rect");
-            group.appendChild(finalRect);
-        }
         
         Element layoutElement = doc.createElement("g");
         layoutElement.setAttribute("transform", "translate("+(getWidth()/2)+","+((height+10)/2)+")");
@@ -97,6 +101,9 @@ public class StateContainer extends StateLayout {
         return group;
     }
     
+    /**
+     * Extends StateLayout's layout and adds deals with the caption's dimensions.
+     */
     @Override public void layout()
     {
         super.layout();
@@ -106,6 +113,10 @@ public class StateContainer extends StateLayout {
         height += size.getHeight();
     }
     
+    /**
+     * Returns the SCXMLModel state this layout represents.
+     * @return state
+     */
     public State getState()
     {
         return thisState;

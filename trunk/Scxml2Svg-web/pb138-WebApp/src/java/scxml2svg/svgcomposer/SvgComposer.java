@@ -2,12 +2,7 @@ package scxml2svg.svgcomposer;
 
 import java.util.List;
 
-import java.io.IOException;
 import java.io.StringWriter;
-
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.charset.StandardCharsets;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.dom.DOMSource;
@@ -30,7 +25,7 @@ import scxml2svg.scxmlmodel.Transition;
 /**
  * This class composes SVG from the SCXML model
  * 
- * @author pepin_000
+ * @author peping
  */
 public class SvgComposer extends StateLayout {    
     private SvgComposer(State[] rootStates, List<Transition> transitions)
@@ -38,6 +33,12 @@ public class SvgComposer extends StateLayout {
         super(rootStates,transitions);
     }
     
+    /**
+     * Converts SCXML model to string
+     * @param rootStates root states of the automaton
+     * @param transitions all transitions in the automaton
+     * @return string representation of the resulting SVG document
+     */
     public static String composeFromRootStates( State[] rootStates, List<Transition> transitions)
     {
         SvgComposer compo = new SvgComposer(rootStates, transitions);
@@ -71,8 +72,7 @@ public class SvgComposer extends StateLayout {
     }
     
     /**
-     * Node svg representation of the layout
-     * Loads and copies res/style.css into output
+     * Node svg representation of the layout.
      * 
      * @param doc Document to create elements in. If null, a new document is created
      * @return SVG node
@@ -109,6 +109,9 @@ public class SvgComposer extends StateLayout {
         {
             Element svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
             
+            svgElement.setAttribute("width", Double.toString(width));
+            svgElement.setAttribute("height", Double.toString(height));
+            
             Element styleElement = document.createElement("style");
             {
                 styleElement.setAttribute("type", "text/css");
@@ -128,21 +131,21 @@ public class SvgComposer extends StateLayout {
 ".final-rect {\n" +
 "	stroke: black;\n" +
 "    stroke-width: 0.75;\n" +
-"    fill: transparent;\n" +
+"    fill: white;\n" +
 "}\n" +
 "\n" +
 ".parallel-rect {\n" +
 "	stroke: black;\n" +
 "	stroke-width: 1;\n" +
 "	stroke-dasharray: 2,2;\n" +
-"	fill: transparent;\n" +
+"	fill: white;\n" +
 "}\n" +
 "\n" +
 ".history-rect {\n" +
 "	stroke: black;\n" +
 "	stroke-width: 3;\n" +
 "	stroke-dasharray: 12,2;\n" +
-"	fill: transparent;\n" +
+"	fill: white;\n" +
 "}\n" +
 "\n" +
 ".id-caption {\n" +
@@ -156,6 +159,10 @@ public class SvgComposer extends StateLayout {
 "\n" +
 ".transition .initial circle {\n" +
 "	fill: black;\n" +
+"}\n"+
+"\n" +
+".transition .transition-event {\n" +
+"	font-size: 11px; \n" +
 "}";
                            
                     cdataNode = document.createCDATASection(cssStyle);
