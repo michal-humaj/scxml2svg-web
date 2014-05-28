@@ -115,3 +115,30 @@ _Contains example of main_
   * Processes each initial transition from element
   * @param e - Element to process
   * @param parent - Parent of the element
+
+==== public State getState(String elID) ====
+
+  * Return state by its ID if it exists
+  * @param elID	- Element id to save as a state
+  * @return State if it exists or null
+
+==== private State addState(Element e, State parent) ====
+
+  * Creates a new state from element if it does not already exist
+  * @param e - Element to save as a state
+  * @param parent - Parent of the element
+  * @return new State
+
+==== private State addState(Element e, State parent, String type) ====
+
+  * Creates a new state from element if it does not already exist
+  * @param e - Element to save as a state
+  * @param parent - Parent of the element
+  * @param type - Type of the state
+  * @return new State or null if it already exists or if new state could not be created
+
+==== private List<Element> getChildrenByTagName(Element e, String str) ====
+
+  * Gets all children of an element by it's tag name
+  * @param e - Element to get the children of
+  * @param str - Tag name
