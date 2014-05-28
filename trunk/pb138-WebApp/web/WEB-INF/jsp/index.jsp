@@ -49,10 +49,15 @@
                             <textarea id="scxmlArea" class="CodeMirror"><c:out value="${scxmlCode}"/></textarea>                                                                    
                         </div>
                     </div>
-                    <div class="svgBox">                    
-                        <form method="GET" action="downloadSVG" >
-                            <input class="downloadButton" type="submit" value="Download SVG file" name="downloadSVG" alt="Download SVG file" />
-                        </form>
+                    <div class="svgBox">
+                        <div>
+                            <form method="GET" action="downloadSVG" >
+                                <input class="downloadButton" type="submit" value="Download SVG file" name="downloadSVG" alt="Download SVG file" />
+                            </form>
+                            <form method="GET" action="showSVG" >
+                                <input class="downloadButton" type="submit" value="Show SVG file" name="showSVG" alt="Show SVG file" />
+                            </form>
+                        </div>
                         <div class="resizable ui-widget-content">
                             <textarea id="svgArea" class="CodeMirror"><c:out value="${svgCode}" /></textarea>                            
                             <script type="text/javascript">
@@ -74,8 +79,8 @@
                     <p style="text-align: left;">
                         <strong>Project homepage:</strong> <a href="https://code.google.com/p/scxml2svg-web">code.google.com/scxml2svg-web</a><br />
                         <strong>Wiki:</strong> <a href="https://code.google.com/p/scxml2svg-web/wiki/Home">code.google.com/scxml2svg-web/wiki</a><br />
-                            <strong>Developers:</strong>
-                            <ul style="margin-top: -15px;margin-left:20px;">
+                        <strong>Developers:</strong><em> (alphabetically)</em>
+                            <ul style="margin-top: -10px;margin-left:20px;">
                                 <li>Dobroslav Bernáth</li>
                                 <li>Adam Brenkous</li>
                                 <li>Josef Hornych</li>
