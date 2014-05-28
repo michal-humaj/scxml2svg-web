@@ -7,29 +7,51 @@ Package ScmlModel
 
 = Classes =
 
-  * [[#Final State]]
-  * [[#History State]]
-  * [[#Parallel State]]
-  * [[#State]]
-  * [[#Transition]]
+  * [#Final State]
+  * [#History State]
+  * [#Parallel State]
+  * [#State]
+  * [#Transition]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+--------------------------------------
 
 == Final State ==
+
+_This class represents a final state_
+_(extends State)_
+
+==== public FinalState(String id) ====
+
+  * Constructor, creates a new final state and sets it's id
+  * @param id - ID of new state
+
+==== public FinalState(String id, State parent) ====
+
+  * Constructor, creates a new final state and sets it's id and parent
+  * @param id - ID of new state
+  * @param parent - Parent of new state
+
+------------------------------------------
+
+== History State ==
+
+_This class represents a history state_
+_(extends State)_
+
+==== public HistoryState(String id) ====
+
+  * Constructor, creates a new history state and sets it's id
+  * @param id - ID of new state
+
+==== public HistoryState(String id, State parent) ====
+
+  * Constructor, creates a new history state and sets it's id and parent
+  * @param id - ID of new state
+  * @param parent - Parent of new state
+
+==== public HistoryState(String id, State parent, String type) ====
+
+  * Constructor, creates a new history state and sets it's id, parent and type
+  * @param id - ID of new state
+  * @param parent - Parent of new state
+  * @param type - Type of the state
