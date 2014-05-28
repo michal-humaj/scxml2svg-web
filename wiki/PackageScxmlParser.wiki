@@ -47,4 +47,39 @@ _Contains example of main_
   * private List< State > states _(Parsed states are stored in here)_
   * private List< Transition > transitions _(Parsed transitions are)_ stored in here
 
-====  ====
+==== public SCXMLParser(String str) ====
+
+  * Constructor, calls processing method on document found at specified path
+  * @param str - Path to scxml file
+  * @throws IOException, SAXException, ParserConfigurationException
+
+
+==== public List< State > getRootStates() ====
+
+  * Returns all states without parents extracted from scxml document
+  * @return  all states with no parent
+
+====  public List< State > getAllStates() ====
+
+  * Returns all states extracted from scxml document
+  * @return  all states
+
+==== public List< Transition > getAllTransitions() ====
+
+  * Returns all Transitions extracted from scxml document
+  * @return  all transitions
+
+==== public void printStatesToStdOut() ====
+
+  * For debugging purposes, prints contents of this class to std out
+
+==== public final void process(String str) ====
+
+  * Main processing method, parses scmxml document
+  * @param str - Path to scxml file
+  * @throws IOException, SAXException, ParserConfigurationException
+
+==== public final void process(Document doc) ====
+
+  * Main processing method, parses scmxml document
+  * @param doc - Fully initialized W3C object model representation of a XML document
