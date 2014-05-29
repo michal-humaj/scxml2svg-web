@@ -25,10 +25,10 @@ _Bounds class facilitates bounding boxes._
 
 *Attributes*
 
-  * double minx
-  * double miny
-  * double maxx
-  * double maxy
+  * private double minx
+  * private double miny
+  * private double maxx
+  * private double maxy
 
 ==== public Bounds() ====
   * Creates a zero-width bounding box.
@@ -36,5 +36,21 @@ _Bounds class facilitates bounding boxes._
 ==== public void update(double x, double y) ====
 _Updates the box with new coordinates._
 If they're out of current bounds, the rectangle expands to fit them in.
-     * @param x
-     * @param y 
+  * @param x
+  * @param y 
+
+==== public double getMinX() ====
+_Gets the left side boundary_
+  * @return minx
+
+==== public double getMinY() ====
+_Gets the top side boundary_
+  * @return miny
+
+==== public double getMaxX() ====
+_Gets the right side boundary_
+  * @return maxx
+
+==== public double getMaxY() ====
+_Gets the bottom side boundary_
+  * @return maxy
