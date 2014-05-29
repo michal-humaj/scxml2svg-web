@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book xml:id="simple_book" xmlns="http://docbook.org/ns/docbook" version="5.0">
+	<title>Vizualizace konečných automatů ve formátu SVG (SCXML2SVG-Web)</title>
+	<chapter xml:id="intro">
+		<title>Úvod</title>
+		<para>
+			Připadl na mě nelehký úkol vizualizovat zparsovaný SCXML model do SVG. Úvodem si řekněme, že estetika je značně subjektivní. Deterministické zpracování libovolného modelu do SVG při splnění i jen několika vybraných estetických kritérií bývá netriviální.
+		</para>
+	</chapter>
+	<chapter xml:id="svg-obstacles">
+		<title>Omezení SVG</title>
+		<para>
+			SVG, například oproti jazyku HTML, neobsahuje žádné postupy jak snadno docílit layoutu. Úplně v něm chybí pojmy jako zarovnání, automatická šířka, vnější okraj, vnitřní okraj atp. To moji práci nijak neulehčilo, protože jsem musel zmíněné funkce naimplementovat vlastní silou. 
+		</para>
+		<para>
+			Na odhad šířky a výšky textu používám několik metod z balíčku AWT. Bohužel jsem narazil na ten problém, že text se v každém prohlížeči podporujícím SVG renderuje jinak. V tomto případě jsem se nevyhnul použití "magické konstanty", která zaručuje, že šířka vracená metodou getTextSize ve mé tříde TextUtils bude větší nebo rovna šířce zobrazené v prohlížeči.
+		</para>
+	</chapter>
+	<chapter xml:id="custom layout">
+		<title>Vlastní layout</title>
+		<para>
+			Kvůli omezení formátu SVG jsem musel napsat vlastní layout, který si sám počítal šířky, výšky a okraje. Jeho úkol také byl všechny šipky, obdélníky stavů a nápisy rozložit tak, aby se pokud možno nepřekrývaly a vypadaly co nejlépe.
+		</para>
+		<para>
+			Pro jednoduchost jsem zvolil rozložení, které pro každý stav pokládá dceřinné stavy do pravidelného n-úhelníku, kde n je počet dceřinných stavů. Toto rozložení má hned několik výhod. Tou první je možnost používat pro šipky pouze přímé čáry aniž by překrývaly jakýkoliv stav. Toho je možné dosáhnout heuristickým zvětšováním poloměru n-úhelníka.
+		</para>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="notexpanded.svg" format="SVG"/>
+			</imageobject>
+			<caption>
+				<para>
+					Pro příklad si uveďme situaci, kdy máme stavy rozložené tak, že jejich středy jsou ve vrcholech pravidelného čtyřúhelníku. Chceme vést šipku ze stavu "Ipsum" do stavu "Adipisci elit", ale stav "Dolor sit amet consectetur" nám v tom překáží.
+				</para>
+			</caption>
+		</mediaobject>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="expanded.svg" format="SVG"/>
+			</imageobject>
+			<caption>
+				<para>
+					V rozložení do n-úhelníku je řešení snadné. Jednoduše budeme zvětšovat poloměr, dokud nám překážející stav neuhne. Jeho velikost zůstává totiž při expanzi poloměru neměnná.
+				</para>
+			</caption>
+		</mediaobject>
+		<para>
+			Poloměr rozložení se rovněž zvětšuje, když se na šipku nevejde řetězec s názvem události.
+		</para>
+    </chapter>
+    <chapter xml:id="graphic">
+    	<title>Vizuální styl</title>
+    	<para>
+    		Při návrhu stylu jsem se snažil co nejvíc přiblížit standardnímu, zažitému stylu kreslení finálních stavů, šipek a běžných stavů. Nad tento rámec konečných automatů jsem přidal ještě styl pro tag "history" a "parallel", protože je jazyk scxml podporuje.
+    	</para>
+    </chapter>
+    <chapter xml:id="summary">
+    	<title>Závěr</title>
+    	<para>
+    		Projekt pro mě byl vyčerpávající. Bylo to moje 1. setkání s Javou a tak jsem se musel potýkat nejen s problematikou optimalizace rozložení a vzhledu, ale i s neznalostí jazyka. Jsem přesvědčený o tom, že na téma vizualizace SCXML v jazyce SVG by se dala napsat celá bakalářská práce. Na rozložení by bylo možné použít komplexnější metody, stavy umisťovat podle jejich hierarchické důležitosti, místo přímých šipek používat křivky, které se ostatním stavům vyhýbají,... Můj kód sice není optimální, nejspíš nepatří ani mezi nejpřehlednější, ale vzhledem k obtížnosti mně přiděleného úkolu, rozsahu předmětu PB138 a časovému horizontu si myslím, že jsem odvedl dobrou práci. 
+    	</para>
+    </chapter>
+	
+</book>
