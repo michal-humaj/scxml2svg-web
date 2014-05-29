@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<article>
+    <articleinfo>
+        <title>Záverečná správa</title>
+        <author>
+            <firstname>Ivo</firstname>
+            <surname>Hrádek</surname>
+        </author>
+        <pubdate>28.05.2014</pubdate>
+    </articleinfo>
+    <section>
+        <title>Použité nástroje</title>
+        <para>Použité nástroje:
+            <itemizedlist>
+                <listitem><para> Apache Tomcat 8.0 - Web Server </para></listitem>
+                <listitem><para> NetBeans 8.0 - IDE </para></listitem>
+                <listitem><para> Subversion SVN - Verzovací systém </para></listitem>
+            </itemizedlist>
+        </para>
+    </section>
+
+    <section>
+        <title>Môj podiel</title> 
+        <para>
+            Môj podiel na projekte bol predovšetkým pri realizovaní nápadov ostatných členov tímu na layout stránky a tvorbe stránky ako takej. 
+Mojou druhou úlohou bolo programovanie webového servletu a "zlepovanie" jednotlivých komponentov návrhu aplikácie.
+        </para>
+    </section>
+
+    <section>
+        <title>Web design</title>
+        <para>
+            Pri prvom návrhu som začal používať vo väčšej miere knižnicu JQuery. No vďaku môjmu nedostatku skúseností s tvorbou web stránok a keďže web pre naše účely ani nepotreboval veľa aktívnych prvkov, tak som sa rozhodol prejsť k jednoduchšiemu prístupu. Prakticky po celú dobu som používal iba XHTML s CSS.
+            Ako jediný framework zameraný na efekty, som si zvolil JQuery UI. Konkrétne sa jednalo o funkciu Resizable z časti Interactions.
+        </para>
+    </section>
+
+    <section>
+        <title>Servlet</title>
+        <para>
+            Pri programovaní web servletu som pomáhal Dobroslavovi, ktorý vytvoril väčšiu časť servletu. Uplatnil som sa predovšetkým pri hladaní problémov resp. nápadov na riešenie daného problému.
+        </para>
+    </section>
+</article>
+
