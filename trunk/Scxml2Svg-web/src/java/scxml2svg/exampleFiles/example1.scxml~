@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<sc:scxml xmlns:sc="http://www.w3.org/2005/07/scxml"
-       version="1.0"
-       initial="Main">
-  
-</sc:scxml>
