@@ -58,6 +58,24 @@ _Gets the bottom side boundary_
 == Collide ==
 
 == Size ==
+_Two-dimensional immutable size primitive._
+
+*Attributes*
+  * private double width
+  * private double height
+
+==== public Size(double width, double height) ====
+_Creates a size with given width and height._
+  * @param width
+  * @param height 
+
+==== public double getWidth() ====
+_Returns the size's width_
+  * @return width
+
+==== public double getHeight() ====
+_Returns the size's height_
+  * @return height
 
 == StateContainer ==
 
