@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE report PUBLIC "-//Norman Walsh//DTD DocBk XML V1.4//EN" "http://docbook.org/docbook/xml/1.4/db3xml.dtd">
+<report>
+  <repheader>
+    <title>Report of my work on project SCXML2SVG(pb138)</title>
+    <author>
+      <firstname>Dobroslav</firstname>
+      <surname>Bernáth</surname>
+    </author>
+    <abstract>
+      <title>Project SCXML to SVG Web Application</title>
+    </abstract>
+  </repheader>
+
+  <section>
+    <title>Team Creation</title>
+    <para>
+      Together with Adam Brenkuš we were looking for suitable project from themes. SCXML2SVG seemed like interesting theme and with team members such as Jozef Hornych
+      and Ivan Hrádek we were happy about the future of project. As I have some experiences in team leading and project management I decided to take this role.
+    </para>
+    <title>Project Beginning</title>
+    <para>
+      At the start of project analysis we had little argument about which way of implementing problem we take. In the end we decided to make our project more robust
+      and reusable in future. I've chosen roles and work for others and begin to work on main web application funkctions.
+    </para>
+    <title>Project(Story) Continues</title>
+    <para>
+      Main functionality such as download and upload was completed rather quickly. After that I came with an idea to implement try button to make it easier for user
+      to work with his SCXML file on our web. This new idea together with show svg button surprisingly show itslef as a problem. Fortunately I managed to solve it.
+    </para>
+    <para>
+      <title>End of Implementation and Fixing(We will just put it together and it will work right?)</title>
+      This part of project was probably most problematic due to hard compatibility of using different versions of Tomcat among team members, relative and absolute paths
+      to certain documents and files, which is problem of programming web application I think. Thankfully we had high quality implementation from Adam and Jozef with 
+      minimum bugs, so we managed to finalize the project.
+    </para>
+    <para>
+      <title>The end</title>
+      In the end I can honestly say that Iam quite happy about the result of our project. I would also like to thank my team mates for their great will to finish project and
+      their work on project, without which it wouldnt be possible.
+    </para>
+  </section>
+</report>
+
