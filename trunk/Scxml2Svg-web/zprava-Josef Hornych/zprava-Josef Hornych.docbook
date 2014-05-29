@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE book PUBLIC "-//Norman Walsh//DTD DocBk XML V3.1.4//EN"
-                         "http://nwalsh.com/docbook/xml/3.1.4/db3xml.dtd">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V5.0//EN"
+         "http://docbook.org/xml/5.0/dtd/docbook.dtd">
 <book xml:id="simple_book" xmlns="http://docbook.org/ns/docbook" version="5.0" lang="cs">
 	<title>Vizualizace konečných automatů ve formátu SVG (SCXML2SVG-Web)</title>
 	<chapter xml:id="intro">
@@ -18,7 +18,7 @@
 			Na odhad šířky a výšky textu používám několik metod z balíčku AWT. Bohužel jsem narazil na ten problém, že text se v každém prohlížeči podporujícím SVG renderuje jinak. V tomto případě jsem se nevyhnul použití "magické konstanty", která zaručuje, že šířka vracená metodou getTextSize ve mé tříde TextUtils bude větší nebo rovna šířce zobrazené v prohlížeči.
 		</para>
 	</chapter>
-	<chapter xml:id="custom layout">
+	<chapter xml:id="custom-layout">
 		<title>Vlastní layout</title>
 		<para>
 			Kvůli omezení formátu SVG jsem musel napsat vlastní layout, který si sám počítal šířky, výšky a okraje. Jeho úkol také byl všechny šipky, obdélníky stavů a nápisy rozložit tak, aby se pokud možno nepřekrývaly a vypadaly co nejlépe.
