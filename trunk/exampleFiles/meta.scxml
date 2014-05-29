@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" initial="Begin layout">
+	<state id="Begin layout">
+		<transition event="initialize radius" target="Increase radius" />
+    </state>
+    <state id="Increase radius">
+    	<transition target="Layout child states" />
+    </state>
+    <state id="Layout child states">
+    	<transition event="rectangles overlap" target="Increase radius" />
+    	<transition event="no overlap" target="Compute size" />
+    </state>
+    <state id="Compute size">
+    	<transition target="Layout transitions" />
+    </state>
+    <state id="Layout transitions" initial="">
+    	<transition event="layout failed" target="Increase radius" />
+
+    	<state id="Transition to self">
+    		<transition event="true" target="S. Pick a side"/>
+    		<transition event="false" target="Transition is initial"/>
+    	</state>
+    	<state id="S. Pick a side">
+    		<transition event="collision" target="S. Pick a side" />
+    		<transition event="no collision" target="Success" />
+    		<transition event="no sides left" target="Failure" />
+        </state>
+    	<state id="Transition is initial">
+    		<transition event="true" target="I. Pick a side" />
+    		<transition event="false" target="I. Arrow from nearest side" />
+    	</state>
+    	<state id="I. Pick a side">
+    		<transition event="collision" target="I. Pick a side" />
+    		<transition event="no collision" target="Success" />
+    		<transition event="no sides left" target="Failure" />
+    	</state>
+    	<state id="Arrow from nearest side">
+    		<transition event="collision" target="Try a side" />
+    		<transition event="no collision" target="Success" />
+    	</state>
+    	<state id="Try a side">
+    		<transition event="collision" target="Try a side" />
+    		<transition event="no collision" target="Success" />
+    		<transition event="no sides left" target="Failure" />
+    	</state>
+    	<final id="Failure" />
+    	<final id="Success" />
+    </state>
+</scxml>
