@@ -1,0 +1,40 @@
+#summary Documentation for pb138.svgcomposer package
+
+= Package SvgComposer =
+
+Package SvgComposer
+
+
+= Classes =
+
+  * [#Bounds]
+  * [#Collide]
+  * [#Size]
+  * [#StateLayout]
+  * [#StateContainer]
+  * [#SvgComposer]
+  * [#TextUtils]
+  * [#TransitionArrow]
+  * [#Vector]
+
+--------------------------------------
+
+== Bounds ==
+
+_Bounds class facilitates bounding boxes._
+
+*Attributes*
+
+  * double minx
+  * double miny
+  * double maxx
+  * double maxy
+
+==== public Bounds() ====
+  * Creates a zero-width bounding box.
+
+==== public void update(double x, double y) ====
+_Updates the box with new coordinates._
+If they're out of current bounds, the rectangle expands to fit them in.
+     * @param x
+     * @param y 
