@@ -1,0 +1,1 @@
+Studenti navrhnou a zrealizují způsob vizualizace konečných automatů popsaných pomocí standardu W3C SCXML ve formátu SVG. Ke generování bude sloužit webová aplikace na platformě Java.
